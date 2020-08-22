@@ -21,8 +21,8 @@
     "build:bundle-profile": "webpack --config webpack.prod.js --profile --json > stats.json",
     "bundle-profile:analyze": "npm run build:bundle-profile && webpack-bundle-analyzer ./stats.json",
     "clean": "rimraf dist",
-    "nodeshift-deploy": "scripts/nodeshift.sh deploy",
-    "nodeshift-undeploy": "scripts/nodeshift.sh undeploy"
+    "nodeshift-deploy": "scripts/nodeshift.sh deploy navigation",
+    "nodeshift-undeploy": "scripts/nodeshift.sh undeploy navigation"
   },
   "devDependencies": {
     "@babel/core": "^7.10.3",

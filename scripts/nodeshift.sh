@@ -4,9 +4,16 @@ DIR=$(dirname "$0")
 source ${DIR}/common/logger.sh
 source ${DIR}/common/util.sh
 
-USAGE="Usage: "`basename $0`" [deploy|undeploy]"
+usage() {
+  log-info "Usage: $(basename $0) [deploy|undeploy] <app_name>"
+  exit 1
+}
 
-APP_NAME=navigation
+APP_NAME=$2
+if [ -z "${APP_NAME}" ]; then
+  log-info "You must specify and app name!"
+  usage
+fi
 
 if [ -z "${NAMESPACE}" ]; then
   log-err "You must set NAMESPACE in you environment!
@@ -33,6 +40,6 @@ case $1 in
     undeploy
   ;;
   *)
-    echo ${USAGE}
+    usage
   ;;
 esac
