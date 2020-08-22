@@ -1,9 +1,9 @@
 {
-  "name": "patternfly-seed",
+  "name": "navigation",
   "version": "0.0.1",
-  "description": "An open source build scaffolding utility for web apps.",
+  "description": "@TODO",
   "main": "server.js",
-  "repository": "https://github.com/patternfly/patternfly-react-seed.git",
+  "repository": "https://github.com/rhuxd-mfe-poc/navigation.git",
   "license": "MIT",
   "private": true,
   "scripts": {
@@ -21,8 +21,8 @@
     "build:bundle-profile": "webpack --config webpack.prod.js --profile --json > stats.json",
     "bundle-profile:analyze": "npm run build:bundle-profile && webpack-bundle-analyzer ./stats.json",
     "clean": "rimraf dist",
-    "storybook": "start-storybook -p 6006",
-    "build:storybook": "build-storybook"
+    "nodeshift-deploy": "scripts/nodeshift.sh deploy",
+    "nodeshift-undeploy": "scripts/nodeshift.sh undeploy"
   },
   "devDependencies": {
     "@babel/core": "^7.10.3",
@@ -30,11 +30,6 @@
     "@babel/plugin-proposal-decorators": "^7.10.3",
     "@babel/preset-env": "^7.10.3",
     "@babel/preset-react": "^7.10.1",
-    "@storybook/addon-actions": "^5.3.19",
-    "@storybook/addon-info": "^5.3.19",
-    "@storybook/addon-links": "^5.3.19",
-    "@storybook/addons": "^5.3.19",
-    "@storybook/react": "^5.3.19",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/jest": "^25.2.3",
@@ -59,6 +54,7 @@
     "imagemin": "^7.0.0",
     "jest": "^26.0.1",
     "mini-css-extract-plugin": "^0.9.0",
+    "nodeshift": "^7.1.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "prettier": "^2.0.5",
     "prop-types": "^15.6.1",
@@ -70,8 +66,8 @@
     "rimraf": "^3.0.2",
     "single-spa-react": "^3.0.0",
     "style-loader": "^1.2.1",
-    "systemjs-webpack-interop": "^2.1.1",
     "svg-url-loader": "^6.0.0",
+    "systemjs-webpack-interop": "^2.1.1",
     "terser-webpack-plugin": "^3.0.2",
     "ts-jest": "^26.1.0",
     "ts-loader": "^7.0.5",
@@ -88,15 +84,15 @@
     "webpack-merge": "^5.1.2"
   },
   "dependencies": {
-    "single-spa": "^5.3.4",
-    "single-spa-layout": "^1.0.0-beta.2",
-    "systemjs-webpack-interop": "^2.1.1",
     "@patternfly/react-core": "^4.32.1",
     "@patternfly/react-icons": "^4.5.0",
     "@patternfly/react-styles": "^4.5.0",
     "express": "^4.17.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-router-last-location": "^2.0.1"
+    "react-router-last-location": "^2.0.1",
+    "single-spa": "^5.3.4",
+    "single-spa-layout": "^1.0.0-beta.2",
+    "systemjs-webpack-interop": "^2.1.1"
   }
 }
