@@ -1,4 +1,4 @@
-import { ApiManagerPage, SecurePage } from 'threeScale/pages';
+import { ApiManagerPage, SecurePage } from 'threescale/pages';
 
 const routes = [
   {

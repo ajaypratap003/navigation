@@ -9,16 +9,16 @@ delete dependencies.serve; // Needed for nodeshift bug
 const reactCSSRegex = /(react-[\w-]+\/dist|react-styles\/css)\/.*\.css$/;
 
 module.exports = (env = {
-  threeScalePort: 3002
+  threescalePort: 3002
 }, argv) => {
   const isProd = argv.mode === 'production';
   const { remoteSuffix } = env;
   const publicPath = (isProd && remoteSuffix)
-  ? `http://sso-${remoteSuffix}/`
-  : `http://localhost:${port}/`;
-  const threeScalePath = (isProd && remoteSuffix)
-    ? `http://threeScale-${remoteSuffix}/`
-    : `http://localhost:${env.threeScalePort}/`;
+    ? `http://navigation${remoteSuffix}/`
+    : `http://localhost:${port}/`;
+  const threescalePath = (isProd && remoteSuffix)
+    ? `http://threescale${remoteSuffix}/`
+    : `http://localhost:${env.threescalePort}/`;
 
   return ({
     entry: "./src/index",
@@ -67,7 +67,7 @@ module.exports = (env = {
         name: "navigation",
         filename: "remoteEntry.js",
         remotes: {
-          threeScale: `threeScale@${threeScalePath}remoteEntry.js`,
+          threescale: `threescale@${threescalePath}remoteEntry.js`,
         },
         exposes: {
           "./Page": "./src/components/Page",
