@@ -1,6 +1,7 @@
 {
   "name": "navigation",
   "version": "0.0.0",
+  "port": 3003,
   "private": true,
   "devDependencies": {
     "@babel/core": "7.11.4",
@@ -11,6 +12,7 @@
     "html-webpack-plugin": "git://github.com/ScriptedAlchemy/html-webpack-plugin#master",
     "mini-css-extract-plugin": "0.11.0",
     "nodeshift": "^7.1.0",
+    "null-loader": "^4.0.0",
     "serve": "11.3.2",
     "webpack": "5.0.0-beta.29",
     "webpack-cli": "3.3.12",
@@ -18,12 +20,12 @@
   },
   "scripts": {
     "start": "npm run serve",
-    "build": "webpack --mode production",
+    "build": "webpack --mode production --env.remoteSuffix=.apps.ocp4.patternfly.org",
     "clean": "rm -rf dist",
     "develop": "webpack-dev-server",
-    "serve": "serve dist -p 3002",
-    "nodeshift-deploy": "scripts/nodeshift.sh deploy 3scale",
-    "nodeshift-undeploy": "scripts/nodeshift.sh undeploy 3scale",
+    "serve": "node scripts/serve",
+    "nodeshift-deploy": "scripts/nodeshift.sh deploy navigation",
+    "nodeshift-undeploy": "scripts/nodeshift.sh undeploy navigation",
     "deploy": "node scripts/deploy"
   },
   "dependencies": {

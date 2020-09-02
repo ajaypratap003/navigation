@@ -2,25 +2,35 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack").container.ModuleFederationPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require("path");
-const deps = require("./package.json").dependencies;
+const { dependencies, port, name } = require("./package.json");
+delete dependencies.serve; // Needed for nodeshift bug
 
-module.exports = (env = {}, argv) => {
+// Don't include PatternFly styles twice
+const reactCSSRegex = /(react-[\w-]+\/dist|react-styles\/css)\/.*\.css$/;
+
+module.exports = (env = {
+  threeScalePort: 3002
+}, argv) => {
   const isProd = argv.mode === 'production';
-  const publicPath = isProd
-    ? 'http://navigation-zfe-poc.apps.ocp4.patternfly.org/'
-    : "http://localhost:3003/";
+  const { remoteSuffix } = env;
+  const publicPath = (isProd && remoteSuffix)
+  ? `http://sso-${remoteSuffix}/`
+  : `http://localhost:${port}/`;
+  const threeScalePath = (isProd && remoteSuffix)
+    ? `http://threeScale-${remoteSuffix}/`
+    : `http://localhost:${env.threeScalePort}/`;
 
-  return {
+  return ({
     entry: "./src/index",
     mode: "development",
     devServer: {
       contentBase: path.join(__dirname, "dist"),
-      port: 3003,
+      port
     },
     output: {
       publicPath
     },
-    module: {
+    module: { 
       rules: [
         {
           test: /\.jsx?$/,
@@ -36,6 +46,7 @@ module.exports = (env = {}, argv) => {
         },
         {
           test: /\.css$/,
+          exclude: reactCSSRegex,
           use: [
             {
               loader: MiniCssExtractPlugin.loader,
@@ -44,6 +55,10 @@ module.exports = (env = {}, argv) => {
             "css-loader",
           ],
         },
+        {
+          test: reactCSSRegex,
+          use: 'null-loader'
+        }
       ],
     },
     plugins: [
@@ -51,20 +66,24 @@ module.exports = (env = {}, argv) => {
       new ModuleFederationPlugin({
         name: "navigation",
         filename: "remoteEntry.js",
+        remotes: {
+          threeScale: `threeScale@${threeScalePath}remoteEntry.js`,
+        },
         exposes: {
-          "./TopNav": "./src/components/TopNav",
+          "./Page": "./src/components/Page",
+          "./routes": "./src/routes",
         },
         shared: {
-          ...deps,
+          ...dependencies,
           react: {
             eager: true,
             singleton: true,
-            requiredVersion: deps.react,
+            requiredVersion: dependencies.react,
           },
           "react-dom": {
             eager: true,
             singleton: true,
-            requiredVersion: deps["react-dom"],
+            requiredVersion: dependencies["react-dom"],
           },
         },
       }),
@@ -72,5 +91,5 @@ module.exports = (env = {}, argv) => {
         template: "./public/index.html",
       }),
     ],
-  };
+  });
 }

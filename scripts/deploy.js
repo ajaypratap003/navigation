@@ -6,8 +6,8 @@ nodeshift.deploy({
     name: 'zfe-poc'
   },
   deploy: {
-    port: 3003
-  },
+    port: 3001
+  }
 }).then((response) => {
     console.log(response);
     console.log('Application Deployed')
