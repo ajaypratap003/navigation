@@ -72,7 +72,7 @@ module.exports = (env = {
         exposes: {
           "./Page": "./src/components/Page",
           "./routes": "./src/routes",
-          "./sidebarContext": "./src/components/sidebarContext",
+          "./PageContext": "./src/components/PageContext",
         },
         shared: {
           ...dependencies,
