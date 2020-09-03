@@ -1,6 +1,8 @@
 import React from 'react';
-import { PageSidebar, Nav, NavList, NavItem, NavExpandable, capitalize } from '@patternfly/react-core';
+import { PageSidebar, Nav, NavList, NavItem, NavExpandable, capitalize, Divider } from '@patternfly/react-core';
 import { NavLink } from "react-router-dom";
+import sidebarContext from './sidebarContext';
+import CubesIcon from '@patternfly/react-icons/dist/js/icons/cubes-icon';
 
 const SidebarItem = ({ text, href, exact }) => (
   <NavItem>
@@ -15,6 +17,7 @@ const SidebarItem = ({ text, href, exact }) => (
 );
 
 const Sidebar = ({ routes }) => {
+  const { apiName } = React.useContext(sidebarContext);
   const sectionedRoutes = routes
     .filter(({ section }) => Boolean(section))
     .reduce((acc, cur) => {
@@ -23,17 +26,25 @@ const Sidebar = ({ routes }) => {
 
       return acc;
     }, {});
+
   return <PageSidebar nav={
     <Nav>
       <NavList>
         <SidebarItem href="/" text="Dashboard" exact />
-        {Object.entries(sectionedRoutes)
+        {apiName && (
+          <React.Fragment>
+            <li className="pf-c-nav__item" style={{ padding: '16px 24px 0 24px', marginTop: '2em', color: 'white' }}>
+              <CubesIcon style={{ marginRight: '8px' }} />{apiName}
+            </li>
+            <Divider />
+          </React.Fragment>
+        )}
+        {apiName && Object.entries(sectionedRoutes)
           .map(([section, items]) => [section, items, location.hash.startsWith(`#/${section}`)])
           .map(([section, items, isActive]) => (
             <NavExpandable
               key={section}
               title={`${capitalize(section)} APIs`}
-              isActive={isActive}
               isExpanded={isActive}
             >
               {items.map(({ path, text }) => (
