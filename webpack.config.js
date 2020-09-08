@@ -1,5 +1,5 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ModuleFederationPlugin = require("webpack").container.ModuleFederationPlugin;
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require("path");
 const { dependencies, port, name } = require("./package.json");
@@ -63,7 +63,7 @@ module.exports = (env = {
     },
     plugins: [
       new MiniCssExtractPlugin(),
-      new ModuleFederationPlugin({
+      new webpack.container.ModuleFederationPlugin({
         name: "navigation",
         filename: "remoteEntry.js",
         remotes: {
