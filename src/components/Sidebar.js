@@ -3,10 +3,10 @@ import { PageSidebar, Nav, NavList, NavItem, NavExpandable, capitalize, Divider 
 import { NavLink, useLocation } from "react-router-dom";
 import CubesIcon from '@patternfly/react-icons/dist/js/icons/cubes-icon';
 
-const SidebarItem = ({ text, href, exact }) => (
+const SidebarItem = ({ text, href, exact, apiName }) => (
   <NavItem>
     <NavLink
-      to={href}
+      to={href.replace('*', apiName)}
       activeClassName="pf-m-current"
       exact={exact}
     >
@@ -16,8 +16,10 @@ const SidebarItem = ({ text, href, exact }) => (
 );
 
 const Sidebar = ({ routes }) => {
-  const { data } = useLocation();
-  const apiName = data ? data.apiName : null;
+  const { pathname } = useLocation();
+  const split = pathname.replace(/\/$/, '').split('/');
+  const apiName = split.length > 1 ? split[split.length - 1] : null;
+  
   const sectionedRoutes = routes
     .filter(({ section }) => Boolean(section))
     .reduce((acc, cur) => {
@@ -48,7 +50,7 @@ const Sidebar = ({ routes }) => {
               isExpanded={isActive}
             >
               {items.map(({ path, text }) => (
-                <SidebarItem key={path + text} href={path} text={text} />
+                <SidebarItem key={path + text} href={path} text={text} apiName={apiName} />
               ))}
             </NavExpandable>
           ))}
