@@ -4,7 +4,7 @@ import PageHeader from './PageHeader';
 import Sidebar from './Sidebar';
 import routes from '../routes';
 
-const MyPage = ({ children }) => (
+const MyPage = ({ children, location }) => (
   <Page
     sidebar={<Sidebar routes={routes} />}
     header={<PageHeader />}

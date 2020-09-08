@@ -1,7 +1,6 @@
 import React from 'react';
 import { PageSidebar, Nav, NavList, NavItem, NavExpandable, capitalize, Divider } from '@patternfly/react-core';
-import { NavLink } from "react-router-dom";
-import PageContext from './PageContext';
+import { NavLink, useLocation } from "react-router-dom";
 import CubesIcon from '@patternfly/react-icons/dist/js/icons/cubes-icon';
 
 const SidebarItem = ({ text, href, exact }) => (
@@ -17,7 +16,8 @@ const SidebarItem = ({ text, href, exact }) => (
 );
 
 const Sidebar = ({ routes }) => {
-  const { apiName } = React.useContext(PageContext);
+  const { data } = useLocation();
+  const apiName = data ? data.apiName : null;
   const sectionedRoutes = routes
     .filter(({ section }) => Boolean(section))
     .reduce((acc, cur) => {
